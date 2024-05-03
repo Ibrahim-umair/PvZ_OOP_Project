@@ -1,0 +1,38 @@
+﻿  Source.cpp
+C:\Users\ibrah\source\repos\PZ_Project\PZ_Project\Header.h(99,25): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  (compiling source file 'Source.cpp')
+  
+C:\Users\ibrah\source\repos\PZ_Project\PZ_Project\Header.h(99,22): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  (compiling source file 'Source.cpp')
+  
+C:\Users\ibrah\source\repos\PZ_Project\PZ_Project\Header.h(115,25): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  (compiling source file 'Source.cpp')
+  
+C:\Users\ibrah\source\repos\PZ_Project\PZ_Project\Header.h(115,22): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  (compiling source file 'Source.cpp')
+  
+C:\Users\ibrah\source\repos\PZ_Project\PZ_Project\Header.h(135,25): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  (compiling source file 'Source.cpp')
+  
+C:\Users\ibrah\source\repos\PZ_Project\PZ_Project\Header.h(135,22): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  (compiling source file 'Source.cpp')
+  
+C:\Users\ibrah\source\repos\PZ_Project\PZ_Project\Header.h(152,25): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  (compiling source file 'Source.cpp')
+  
+C:\Users\ibrah\source\repos\PZ_Project\PZ_Project\Header.h(152,22): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  (compiling source file 'Source.cpp')
+  
+C:\Users\ibrah\source\repos\PZ_Project\PZ_Project\Header.h(168,25): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  (compiling source file 'Source.cpp')
+  
+C:\Users\ibrah\source\repos\PZ_Project\PZ_Project\Header.h(168,22): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  (compiling source file 'Source.cpp')
+  
+C:\Users\ibrah\source\repos\PZ_Project\PZ_Project\Source.cpp(37,20): warning C4244: 'initializing': conversion from 'sf::Int64' to 'float', possible loss of data
+  Generating code
+  23 of 85 functions (27.1%) were compiled, the rest were copied from previous compilation.
+    12 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+  PZ_Project.vcxproj -> C:\Users\ibrah\source\repos\PZ_Project\x64\Release\PZ_Project.exe

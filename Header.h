@@ -1,25 +1,27 @@
-﻿#pragma once
+﻿
+#pragma once
 #include <iostream>
 #include "SFML/Graphics.hpp"
+#include "SFML/Audio.hpp"
 using namespace std;
 using namespace sf;
 
-void createBack(RenderWindow& window)
+void createBack(RenderWindow& window, Texture bgTexture)
 {
 	const int blackScreen = 84;
-
-	Texture bgTexture;
-	bgTexture.loadFromFile("../PZ_Project/PVZ/backgrounds/level1.png");
 	Sprite bgSprite;
 	bgSprite.setTexture(bgTexture);
 	bgSprite.setPosition(0, blackScreen);
-
-
 	window.draw(bgSprite);
 }
 
-void printGrid(bool Field_Status[][9], const int Rows, const int Cols)
+
+
+void printGrid(int Field_Status[][9], const int Rows, const int Cols, Clock gridClock)
 {
+	if(gridClock.getElapsedTime().asSeconds() < 7)
+		return;
+	gridClock.restart();
 	// Print top border
 	cout << "+";
 	for (int i = 0; i < Cols; ++i)
@@ -31,9 +33,25 @@ void printGrid(bool Field_Status[][9], const int Rows, const int Cols)
 	for (int i = 0; i < Rows; ++i)
 	{
 		cout << "|";
-		for (int j = 0; j < Cols; ++j) {
-			char symbol = (Field_Status[i][j]) ? 'X' : ' ';
-			cout << " " << symbol << " |";
+		for (int j = 0; j < Cols; ++j)
+		{
+			if (Field_Status[i][j] == 0)
+				cout << "   |";
+			else if (Field_Status[i][j] == 1)
+				cout << " P |";
+			else if (Field_Status[i][j] == 2)
+				cout << " S |";
+			else if (Field_Status[i][j] == 3)
+				cout << " U |";
+			else if (Field_Status[i][j] == 4)
+				cout << " R |";
+			else if (Field_Status[i][j] == 5)
+				cout << " W |";
+			else if (Field_Status[i][j] == 6)
+				cout << " C |";
+			else
+				cout << " - |";
+
 		}
 		cout << endl;
 
@@ -48,141 +66,81 @@ void printGrid(bool Field_Status[][9], const int Rows, const int Cols)
 	cout << "\n\n\n";
 }
 
-struct coordinates
-{
-	int x;
-	int y;
-};
-
-// Function to convert mouse coordinates to grid coordinates
-coordinates getGridCoordinates(int mouseX, int mouseY, int Cell_Size_X, int Cell_Size_Y)
-{
-	coordinates coords;
-	coords.x = (mouseX - 250) / Cell_Size_X;
-	coords.y = (mouseY - 100 - 84) / Cell_Size_Y;
-	return coords;
-};
-
-
-
-class Plant
-{
-protected:
-	Sprite sprite;
-public:
-	virtual void draw(RenderWindow& window, int x, int y) = 0;
-};
-
-class Peashooter : public Plant
+void drawMenu(RenderWindow& window, Sprite peashooterSprite, Sprite sunflowerSprite, Sprite repeaterSprite, Sprite snowpeaSprite, Sprite cherrybombSprite, Sprite wallnutSprite)
 {
 
+	int x = 80;
+	int x2 = 70;
+	peashooterSprite.setPosition(x, 12);
+	sunflowerSprite.setPosition(x+=x2, 12);
+	snowpeaSprite.setPosition(x+=x2, 12);
+	repeaterSprite.setPosition(x+=x2, 12);
+	wallnutSprite.setPosition(x+=x2, 12);	
+	cherrybombSprite.setPosition(x+=x2, 12);
 
-private:
-	Texture peashooterTexture;
-	IntRect spriteRect;  // Rect to define the portion of the texture to display
+	window.draw(peashooterSprite);
+	window.draw(sunflowerSprite);
+	window.draw(wallnutSprite);
+	window.draw(repeaterSprite);
+	window.draw(snowpeaSprite);
+	window.draw(cherrybombSprite);
+
+}
+
+
+void displaySun(RenderWindow& window, int number) {
+
+	Font font;
+	if (!font.loadFromFile("../PZ_Project/PVZ/Fonts/serio.TTF")) {
+		// Error loading font
+		return;
+	}
+
+	Text text;
+	text.setFont(font);
+	text.setString("Sun :" + to_string(number));
+	text.setCharacterSize(24);
+	text.setFillColor(sf::Color::Yellow);
+	text.setPosition(500, 12);
+
 	
 
-public:
-
-	Peashooter()// : frameWidth(26), frameCount(8), currentFrame(0)
-	{
-		peashooterTexture.loadFromFile("../PZ_Project/PVZ/Plants/Peashooter2.png");
-		sprite.setTexture(peashooterTexture);
-		sprite.setScale(2.0f, 2.0f);
-		spriteRect = IntRect(0, 0, 26, 32);
-		sprite.setTextureRect(spriteRect);
+		window.draw(text);
 	}
+
+void displayLives(RenderWindow& window, int number) 
+{
+
+	Font font;
+	if (!font.loadFromFile("../PZ_Project/PVZ/Fonts/Samdan.TTF")) {
+		return;
+	}
+
+	Text text;
+	text.setFont(font);
+	text.setString("Lives :" + to_string(number));
+	text.setCharacterSize(24);
+	text.setFillColor(sf::Color::Red);
+	text.setPosition(500, 50);
+
+	window.draw(text);
+}
+
+void displayLoose(RenderWindow& window) 
+{
+	Font font;
+	if (!font.loadFromFile("../PZ_Project/PVZ/Fonts/SamdanEvil.TTF")) {
+		return;
+	}
+
+	Text text;
+	text.setFont(font);
+
 	
+	text.setString("You Lost!\nBetter Luck Next Time!");
+	text.setCharacterSize(140);
+	text.setFillColor(sf::Color::Red);
+	text.setPosition(1366/10, 768/4);
 
-	void draw(RenderWindow& window, int x, int y) override
-	{
-		sprite.setPosition(x, y);
-		window.draw(sprite);
-	}
-};
-
-class Sunflower : public Plant
-{
-public:
-
-	void draw(RenderWindow& window,int x, int y)
-	{
-		Texture sunflowerTexture;
-		sunflowerTexture.loadFromFile("../PZ_Project/PVZ/Plants/sunflower2.png");
-		sprite.setTexture(sunflowerTexture);
-		sprite.setTextureRect(IntRect(100, 37, 30, 37));
-		sprite.setScale(2.0f, 2.0f);
-		sprite.setPosition(x, y);
-
-		window.draw(sprite);
-	}
-
-	void animate()
-	{}
-};
-
-class Wallnut : public Plant
-{
-public:
-
-	void draw(RenderWindow& window, int x, int y)
-	{
-		Texture wallnutTexture;
-		wallnutTexture.loadFromFile("../PZ_Project/PVZ/Plants/wallnut.png");
-		sprite.setTexture(wallnutTexture);
-		sprite.setTextureRect(IntRect(0, 0, 28, 32));
-		sprite.setScale(2.0f, 2.0f);
-		sprite.setPosition(x, y);
-
-		window.draw(sprite);
-	}
-};
-
-class Snowpea : public Plant
-{
-public:
-
-	void draw(RenderWindow& window, int x, int y)
-	{
-		Texture snowpeaTexture;
-		snowpeaTexture.loadFromFile("../PZ_Project/PVZ/Plants/snowpea.png");
-		sprite.setTexture(snowpeaTexture);
-		sprite.setTextureRect(IntRect(31, 0, 31, 31));
-		sprite.setScale(2.0f, 2.0f);
-		sprite.setPosition(x, y);
-		window.draw(sprite);
-	}
-};
-	
-class Cherrybomb : public Plant
-{
-public:
-
-	void draw(RenderWindow& window, int x, int y)
-	{
-		Texture cherrybombTexture;
-		cherrybombTexture.loadFromFile("../PZ_Project/PVZ/Plants/cherrybomb.png");
-		sprite.setTexture(cherrybombTexture);
-		sprite.setTextureRect(IntRect(1, 10, 32, 27));
-		sprite.setScale(2.0f, 2.0f);
-		sprite.setPosition(x, y);
-
-		window.draw(sprite);
-	}
-	void animate() {}
-};
-
-
-
-//That sounds like a solid plan! By using a PlantFactory class and composing the Plant objects within it using pointers, you can create multiple instances of plants for each placement in your game. This approach will allow you to manage each plant independently, which will be crucial for implementing actions like shooting or animations for individual plants in the future. If you need any further guidance on implementing this approach or have any questions, feel free to ask!
-class PlantFactory
-{
-	Plant* plant;
-	public:
-		PlantFactory(Plant* plant) : plant(plant) {}
-		void draw(RenderWindow& window, int x, int y)
-		{
-			plant->draw(window, x, y);
-		}
-
-};
+	window.draw(text);
+}
